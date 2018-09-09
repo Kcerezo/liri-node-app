@@ -1,13 +1,14 @@
 require("dotenv").config();
 
 var keys = require("./keys.js");
-var fs = required("fs");
+var fs = require("fs");
 var Spotify = require('node-spotify-api');
-var Spotify = new Spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
 var request = require("request");
-var movieName = process.argv[3];
+var movieName = process.argv.slice(3).join(' ');
 var liriReturn = process.argv[2];
-var Bands = required ('node-bands-api');
+// var Bands = require('node-bands-api');
+
 
 switch(liriReturn){
     case "spotify-this-song":
@@ -49,20 +50,22 @@ function musicThis(){
 
 function movieThis(){
 
-    var queryUrl = "" + movieName + "";
+    var queryUrl = "http://www.omdbapi.com/?apikey=ba5aaec1&t=" + movieName ;
    
     request (queryUrl, function (error, response, body){
 
-            if(!error && response.statusCode === 200){
+                console.log(error, response.statusCode)
 
-                var movieThis = JSON.parse(body);
+            if(!error){
+
+                var myMovieData = JSON.parse(body);
                 var queryUrlResults =
                 "Artist: " + myMovieData.Name + "\n" +
                 "Song: " + myMovieData.Venue + "\n" +
                 "Link: " + myMovieData + "\n" 
                 "Album: " + myMovieData + "\n" 
 
-                console.log()
+                console.log(queryUrlResults)
             }
     })
 }
@@ -92,4 +95,4 @@ function bandThis(){
 }
 
 
-var spotify = new Spotify(keys.spotify);
+// var spotify = new Spotify(keys.spotify);
